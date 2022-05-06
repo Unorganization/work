@@ -1,5 +1,7 @@
 import * as azdev from "azure-devops-node-api"
+import {stringify} from 'csv-stringify/sync'
 import 'dotenv/config' // This line can be removed if run with: node -r dotenv/config server.js
+import * as fs from 'fs';
 
 const token = process.env.AZURE_PERSONAL_ACCESS_TOKEN
 const orgUrl = process.env.API_URL
@@ -23,7 +25,7 @@ console.log(`team ${project.defaultTeam.name}`)
 const query = await witApi.getQuery(project.id, "Shared Queries/Team/EB/PI EB User Stories")
 const items = await witApi.queryById(query.id)
 
-const columNames = items.columns.map(_ => _.name)
+const columnNames = items.columns.map(_ => _.name)
 const fields = items.columns.map(_ => _.referenceName)
 const allIds = items.workItems.map(_ => _.id)
 
@@ -35,5 +37,31 @@ while (idsRemaining.length > 0) {
     allWorkItems = allWorkItems.concat(await witApi.getWorkItemsBatch({fields, ids}))
     idsRemaining = idsRemaining.filter((_, i) => i >= chunk)
 }
+
+const records = []
+for (const workItem of allWorkItems) {
+    const record = {}
+    for (const [i, key] of Object.keys(workItem.fields).entries()) {
+        record[columnNames[i]] = workItem.fields[key]
+    }
+
+    // for (const ii of workItem.fields) {
+    //     console.log(ii)
+    // }
+    // const x = Object.keys(workItem.fields).map(_=> workItem.fields[_])
+    // for (const [i, v]  of x.entries()) {
+    //     record[columnNames[i]] = v.fields[_]
+    // }
+
+    // Object.keys(workItem.fields).map((_, i) => { 
+    //     record[columnNames[i]] = workItem.fields[_]
+    // })
+    records.push(record)
+}
+
+let data = stringify(records,{ header: true })
+
+fs.writeFileSync("query_result.csv", data);
+
 
 console.log("done")
