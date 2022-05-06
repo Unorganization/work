@@ -1,0 +1,23 @@
+process.exit(1)
+process.exit(1)
+import 'dotenv/config' // This line can be removed if run with: node -r dotenv/config server.js
+import * as azdev from "azure-devops-node-api"
+import * as WorkItemTrackingApi from 'azure-devops-node-api/WorkItemTrackingApi';
+
+let token = process.env.AZURE_PERSONAL_ACCESS_TOKEN
+let orgUrl = process.env.API_URL
+
+if (!token || !orgUrl) {
+    console.log(`Required environment variables not set`)
+    process.exit(1)
+}
+
+let authHandler = azdev.getPersonalAccessTokenHandler(token) 
+let connection = new azdev.WebApi(orgUrl, authHandler)    
+let connData = await vsts.connect();
+console.log(`Hello ${connData.authenticatedUser.providerDisplayName}`);
+
+
+const witApi = await webApi.getWorkItemTrackingApi();
+
+console.log("done")
