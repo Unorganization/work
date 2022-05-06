@@ -1,0 +1,13 @@
+{
+  "name": "tool",
+  "version": "1.0.0",
+  "description": "tool to do stuff",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+	"stop": "echo stop"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.3"
+  }
+}
