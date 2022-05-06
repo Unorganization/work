@@ -4,6 +4,9 @@ import { stringify } from 'csv-stringify/sync'
 import fs from 'fs'
 import path from 'path'
 
+const isObject = (obj) => !!obj && obj.constructor.name === "Object"
+const fix = (obj) => isObject(obj) && obj.hasOwnProperty('displayName') ? obj.displayName : obj
+
 export async function queryCmd(args) {
     if (args._.length < 2) {
         console.log("Query not specified");
@@ -19,10 +22,10 @@ export async function queryCmd(args) {
     const items = await witApi.queryById(query.id)
     
     const fields = items.columns.map(_ => _.referenceName)
-    const columnNames = items.columns.reduce((p, c) => ({ ...p, [c.referenceName]: c.name }), {})
+    const columnNames = items.columns.reduce((obj, _) => ({ ...obj, [_.referenceName]: _.name }), {})
     const records = (await getAllWorkItemsForIds(witApi, fields, items.workItems.map(_ => _.id).slice(0)))
         .map(workItem => Object.keys(workItem.fields).
-            reduce((p, c) => ({ ...p, [columnNames[c]]: workItem.fields[c] }), {}))
+            reduce((obj, _) => ({ ...obj, [columnNames[_]]: fix(workItem.fields[_]) }), {}))
     
     fs.writeFileSync(path.join('out', 'outquery_result.csv'), stringify(records, { header: true }))
 
