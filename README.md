@@ -1,5 +1,12 @@
 # title
-template for nodejs tool
+nodejs tools.
+
+Directory content:
+* `.env` -- file containint secrets stored as environment variables. .gitignore'ed.
+* `.gitignore` -- from https://github.com/github/gitignore/blob/main/Node.gitignore
+* `example.env` -- checked in version of `.env`, with no secrets, for new clones.
+* `server.js` -- main entry point.
+* `try.js` -- scratch pad.
 
 # how to run
 1. npm install

@@ -1,17 +1,29 @@
-import { witApi, project } from "./ado.js"
-import { getAllWorkItemsForIds } from './getAllWorkItems.js'
-import { stringify } from 'csv-stringify/sync'
-import * as fs from 'fs'
+#!/usr/bin/env node
+import minimist from 'minimist'
+import { queryCmd } from "./commands/queryCmd.js"
 
-const queryName = "Shared Queries/Team/EB/PI EB User Stories"
+const args = minimist(process.argv.slice(2), { // https://devhints.io/minimist
+    boolean: ['csv'],
+    default: { csv: true },
+})
 
-const query = await witApi.getQuery(project.id, queryName)
-const items = await witApi.queryById(query.id)
+if (args._.length == 0) {
+    console.log("Commands:");
+    console.log('  query "Name of query" [--csv]');
+    console.log('  --csv is default');
+    console.log("Examples:");
+    console.log('  query "Shared Queries/Team/EB/PI EB User Stories" --csv');
+    process.exit(0)
+}
 
-const fields = items.columns.map(_ => _.referenceName)
-const columnNames = items.columns.reduce((p, c) => ({ ...p, [c.referenceName]: c.name }), {})
-var records = (await getAllWorkItemsForIds(witApi, fields, items.workItems.map(_ => _.id).slice(0)))
-    .map(workItem => Object.keys(workItem.fields).
-        reduce((p, c) => ({ ...p, [columnNames[c]]: workItem.fields[c] }), {}));
-fs.writeFileSync("query_result.csv", stringify(records, { header: true }))
-console.log("done")
+let exitCode = 0
+switch (args._[0]) {
+    case "query":
+        exitCode = await queryCmd(args)
+        break;
+
+    default:
+        console.log(`Unknown command: ${args._[0]}`);
+        break;
+}
+process.exit(exitCode)
