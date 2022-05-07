@@ -26,25 +26,25 @@ const teamContext = {project: project.name,
     team: project.defaultTeam.name,
     teamId: project.defaultTeam.id}
 
-// console.log('Overview of recent activity');
+// console.log('Overview of recent activity')
 // console.log('Work data in progress', await witApi.getAccountMyWorkData(WorkItemTrackingInterfaces.QueryOption.Doing))
 // console.log('Recent Activity:', await witApi.getRecentActivityData())
 // console.log('Recent Mentions:', await witApi.getRecentMentions())
 
-console.log('Get work item info');
+console.log('Get work item info')
 const queries = await witApi.getQueries(project.id)
 console.log('There are', queries.length, 'queries')
 if (queries.length > 0) {
     console.log('Sample query:', queries[0])
 }
 
-console.log('Get work item info');
-const workItemTypes = await witApi.getWorkItemTypes(project.id);
-console.log('Work item types:', workItemTypes.map((item) => item.name));
+console.log('Get work item info')
+const workItemTypes = await witApi.getWorkItemTypes(project.id)
+console.log('Work item types:', workItemTypes.map((item) => item.name))
 if (workItemTypes.length > 0) {
-    const type = workItemTypes[0];
-    console.log('Info for type' + type.name);
-    console.log(type.name, 'has', (await witApi.getWorkItemTypeColors([project.name])).length, 'colors');
+    const type = workItemTypes[0]
+    console.log('Info for type' + type.name)
+    console.log(type.name, 'has', (await witApi.getWorkItemTypeColors([project.name])).length, 'colors')
 }
 
 console.log("done")

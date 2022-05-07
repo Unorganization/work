@@ -28,7 +28,7 @@ app.get("/url", (req, res, next) => {
             "AssignedTo": "mallory"
         }
         ]
-    );
-   });
+    )
+   })
    
 app.listen(3000)

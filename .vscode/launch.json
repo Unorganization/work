@@ -13,10 +13,13 @@
             ],
             "program": "${workspaceFolder}\\server.js",
             "args": [
+                "serve"
+            ],
+            "xargs": [
                 "query",
                 "Shared Queries/Team/EB/PI EB User Stories",
                 "--csv"
-              ]
+            ]
         }
     ]
 }
