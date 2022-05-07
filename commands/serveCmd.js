@@ -1,7 +1,6 @@
 import express from 'express'
 import { getConnection, getProject } from "../lib/ado.js"
 import { GetCsvRecordsForQuery } from "./queryCmd.js"
-import { stringify } from 'csv-stringify/sync'
 
 export async function serveCmd(args) {
     console.log("serve")    
@@ -13,11 +12,10 @@ export async function serveCmd(args) {
       res.send('Hello World')
     })
     app.get('/queryworkitems', async function (req, res) {
-        res.header("Content-Type", "text/csv");
+        const queryName = req.query['witquerybyname']
         if (queryName) {
             const records = await GetCsvRecordsForQuery(connection, queryName)
-            const data = stringify(records, { header: true })
-            res.send(data);
+            res.send(records);
         } else {
             res.send(`Missing "witquerybyname" query tag`)
         }
