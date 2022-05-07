@@ -70,3 +70,8 @@ or:
 (runs stop script)
 1. npm stop
 
+# Notes
+
+http://localhost:3000/queryworkitems?witquerybyname=Shared%20Queries/Team/EB/PI%20EB%20User%20Stories
+
+text/csv
