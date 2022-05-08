@@ -1,3 +1,8 @@
+const compose = arr => val => arr.reduce((f1,f2) => f2(f1), val)
+const x2 = compose2( [a => a + a, a => a * a] )
+const x = compose( [a => a + a, a => a * a] )
+
+
 # title
 nodejs tools.
 
