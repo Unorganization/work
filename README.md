@@ -1,3 +1,12 @@
+distinct in terms of reduce:
+a.filter((v,i,a)=>a.indexOf(v)==i)
+
+map in terms of reduce:
+a.reduce((acc, v) => [...acc, v * 2], [])
+
+filter in terms of reduce:
+a.reduce((acc, v) => v > 2 ? [...acc, v] : acc, [])
+
 flatMap in terms of reduce
 people.reduce((acc, v) => [...acc, ...v], [])
 
