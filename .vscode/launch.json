@@ -12,10 +12,10 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\server.js",
-            "args": [
+            "xargs": [
                 "serve"
             ],
-            "xargs": [
+            "args": [
                 "query",
                 "Shared Queries/Team/EB/PI EB User Stories",
                 "--csv"
