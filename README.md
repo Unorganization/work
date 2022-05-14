@@ -1,3 +1,27 @@
+Tiny curry
+
+// Tiny, recursive autocurry
+const curry = (
+  f, arr = []
+) => (...args) => (
+  a => a.length === f.length ?
+    f(...a) :
+    curry(f, a)
+)([...arr, ...args]);
+
+const compose = (...fns) => x => fns.reduceRight((y, f) => f(y), x);
+
+const trace = label => value => {
+  console.log(`${ label }: ${ value }`);
+  return value;
+}
+
+const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x);
+
+
+---
+
+
 distinct in terms of reduce:
 a.filter((v,i,a)=>a.indexOf(v)==i)
 
