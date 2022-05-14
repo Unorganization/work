@@ -1,13 +1,13 @@
-import { getConnection, getProject } from "../lib/ado.js"
-import { getAllWorkItemsForIds } from '../lib/getAllWorkItems.js'
-import { stringify } from 'csv-stringify/sync'
-import fs from 'fs'
-import path from 'path'
+const { getConnection, getProject } = require("../lib/ado.js")
+const { getAllWorkItemsForIds } = require('../lib/getAllWorkItems.js')
+const { stringify } = require('csv-stringify/sync')
+const fs = require('fs')
+const path = require('path')
 
 const isObject = obj => !!obj && obj.constructor.name === "Object"
 const fix = obj => isObject(obj) && obj.displayName || obj
 
-export async function queryCmd(args) {
+async function queryCmd(args) {
     if (args._.length < 2) {
         console.log("Query not specified")
         return 1
@@ -16,12 +16,17 @@ export async function queryCmd(args) {
 
     const connection = await getConnection()
     const records = await GetCsvRecordsForQuery(connection, queryName)
-    fs.writeFileSync(path.join('out', 'outquery_result.csv'), stringify(records, { header: true }))
-    console.log("done")
+
+    const dir = './out';
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+    fs.writeFileSync(path.join(dir, 'outquery_result.csv'), stringify(records, { header: true }))
+    console.log("query done")
     
     return 0
 }
-export async function GetCsvRecordsForQuery(connection, queryName) {
+async function GetCsvRecordsForQuery(connection, queryName) {
     let [witApi, project] = await Promise.all([
         connection.getWorkItemTrackingApi(),
         getProject(connection)
@@ -38,3 +43,5 @@ export async function GetCsvRecordsForQuery(connection, queryName) {
     return records
 }
 
+exports.queryCmd = queryCmd;
+exports.GetCsvRecordsForQuery = GetCsvRecordsForQuery;

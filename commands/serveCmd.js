@@ -1,8 +1,8 @@
-import express from 'express'
-import { getConnection, getProject } from "../lib/ado.js"
-import { GetCsvRecordsForQuery } from "./queryCmd.js"
+const express = require('express')
+const { getConnection, getProject } = require("../lib/ado.js")
+const { GetCsvRecordsForQuery } = require("./queryCmd.js")
 
-export async function serveCmd(args) {
+async function serveCmd(args) {
     console.log("serve")    
     const app = express()
 
@@ -34,3 +34,5 @@ export async function serveCmd(args) {
     app.listen(3000)
     return 0
 }
+
+exports.serveCmd = serveCmd
