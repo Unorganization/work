@@ -1,6 +1,9 @@
-export function multiply(x, y) {
+function multiply(x, y) {
     return x * y;
 } 
-export function add(x, y) {
+function add(x, y) {
     return x + y;
 } 
+
+exports.multiply = multiply;
+exports.add = add;

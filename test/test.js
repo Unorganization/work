@@ -1,4 +1,5 @@
-import assert from 'assert'
+//import assert from 'assert'
+const assert = require('assert');
 
 describe('Array', function() {
   describe('#indexOf()', function() {

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import minimist from 'minimist'
+const minimist = require('minimist')
 import { queryCmd } from "./commands/queryCmd.js"
 import { serveCmd } from "./commands/serveCmd.js"
 

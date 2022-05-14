@@ -1,4 +1,4 @@
-import assert from 'assert'
+// import assert from 'assert'
 //import * as price from './price.js'
 // import * as td from 'testdouble' // https://github.com/testdouble/testdouble.js/blob/main/examples/node-esm/test/lib/car-test.mjs
 

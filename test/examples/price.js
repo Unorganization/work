@@ -1,5 +1,7 @@
-import * as mymath from './mymath.js'
+const mymath = require('./mymath.js');
 
-export function priceWithTax(price, tax) {
+function priceWithTax(price, tax) {
     return mymath.multiply(price, mymath.add(1, tax))
 } 
+
+exports.priceWithTax = priceWithTax
